@@ -1,0 +1,53 @@
+<table class="table  border mt-4">
+    <thead>
+        <tr>
+            <th *ngFor="let header of tableHeaders" 
+                [appSortTable]="tableData"
+                [attr.data-name]="header.key" 
+                data-order="asc"
+                >
+                <i class="fa-solid"></i> {{header.value}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td *ngFor="let header of tableHeaders">
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" 
+                        (change)="search($event)" 
+                        class="form-control" 
+                        [attr.data-name]="header.key"
+                        [attr.placeholder]="'Search '+header.value"
+                        >
+                </div>
+            </td>
+        </tr>
+        <tr *ngFor="let data of filterTableData" (click)="rowClick(data.id)">
+            <td *ngFor="let header of tableHeaders">
+                {{data[header.key]}}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-2">
+        <div class="form-inline mr-4">
+            <select class="form-control" [value]="itemsPerPage" (change)="changePageSize($event)">
+                <option value="3">3 rows</option>
+                <option value="4">4 rows</option>
+                <option value="6">6 rows</option>
+                <option value="8">8 rows</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-10 pull-right">
+        <div class="btn-group">
+            <button *ngFor="let page of pageNumbers" (click)="changePage(page)" class="btn btn-outline-secondary"
+                [class.active]="page == selectedPage">
+                {{page}}
+            </button>
+        </div>
+    </div>
+</div>
